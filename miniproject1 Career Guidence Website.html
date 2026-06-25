@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Guidance Website</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        p {
+            color: #555;
+        }
+
+        select {
+            width: 80%;
+            padding: 10px;
+            margin: 15px 0;
+            font-size: 16px;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        #result {
+            margin-top: 25px;
+            text-align: left;
+            padding: 15px;
+            border-radius: 8px;
+            background: #eef5ff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Career Guidance Website</h1>
+
+    <p>Select your area of interest to get career suggestions.</p>
+
+    <select id="interest">
+        <option value="">-- Select Interest --</option>
+        <option value="technology">Technology</option>
+        <option value="business">Business</option>
+        <option value="healthcare">Healthcare</option>
+        <option value="arts">Arts</option>
+    </select>
+
+    <br>
+
+    <button onclick="showCareer()">Get Career Suggestions</button>
+
+    <div id="result"></div>
+
+</div>
+
+<script>
+function showCareer() {
+
+    let interest = document.getElementById("interest").value;
+    let result = document.getElementById("result");
+
+    if (interest === "technology") {
+        result.innerHTML =
+        "<h3>Technology Careers</h3>" +
+        "<ul>" +
+        "<li>Software Developer</li>" +
+        "<li>Web Developer</li>" +
+        "<li>Data Analyst</li>" +
+        "<li>Cyber Security Analyst</li>" +
+        "</ul>";
+    }
+
+    else if (interest === "business") {
+        result.innerHTML =
+        "<h3>Business Careers</h3>" +
+        "<ul>" +
+        "<li>Marketing Manager</li>" +
+        "<li>HR Manager</li>" +
+        "<li>Accountant</li>" +
+        "<li>Business Analyst</li>" +
+        "</ul>";
+    }
+
+    else if (interest === "healthcare") {
+        result.innerHTML =
+        "<h3>Healthcare Careers</h3>" +
+        "<ul>" +
+        "<li>Nurse</li>" +
+        "<li>Pharmacist</li>" +
+        "<li>Medical Lab Technician</li>" +
+        "<li>Physiotherapist</li>" +
+        "</ul>";
+    }
+
+    else if (interest === "arts") {
+        result.innerHTML =
+        "<h3>Arts Careers</h3>" +
+        "<ul>" +
+        "<li>Graphic Designer</li>" +
+        "<li>Content Writer</li>" +
+        "<li>Teacher</li>" +
+        "<li>Animator</li>" +
+        "</ul>";
+    }
+
+    else {
+        result.innerHTML =
+        "<p style='color:red;'>Please select an interest area.</p>";
+    }
+}
+</script>
+
+</body>
+</html>

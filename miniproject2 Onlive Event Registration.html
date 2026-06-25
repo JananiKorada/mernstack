@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Registration System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 500px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Event Registration System</h1>
+
+    <label>Participant Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label>Email Address</label>
+    <input type="email" id="email" placeholder="Enter your email">
+
+    <label>Select Event</label>
+    <select id="event">
+        <option value="">-- Select Event --</option>
+        <option>Technical Workshop</option>
+        <option>Coding Contest</option>
+        <option>Cultural Fest</option>
+        <option>Sports Tournament</option>
+        <option>Career Guidance Seminar</option>
+    </select>
+
+    <button onclick="registerEvent()">Register</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+function registerEvent() {
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let event = document.getElementById("event").value;
+
+    if(name === "" || email === "" || event === "") {
+        alert("Please fill all fields.");
+        return;
+    }
+
+    let result = document.getElementById("result");
+
+    result.style.display = "block";
+    result.innerHTML = `
+        <h3>Registration Successful!</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Event:</strong> ${event}</p>
+        <p>Thank you for registering.</p>
+    `;
+
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("event").value = "";
+}
+</script>
+
+</body>
+</html>
