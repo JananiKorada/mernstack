@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Explorer</title>
+
+    <style>
+        /* Modern Reset & Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container Card */
+        .container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        p {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        /* Form Dropdown Selection */
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 2px solid #dcdde1;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #2c3e50;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            border-color: #3498db;
+        }
+
+        /* Interactive Buttons */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+            flex: 2;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #d5d5d5;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Results & Outputs Box */
+        #result {
+            text-align: left;
+            padding: 20px;
+            border-radius: 10px;
+            display: none; 
+            border-left: 5px solid #3498db;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        #result.active {
+            display: block;
+            background: #eef5ff;
+        }
+
+        #result.error {
+            display: block;
+            background: #fdf0f0;
+            border-left-color: #e74c3c;
+        }
+
+        #result h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        #result ul {
+            list-style-type: none;
+        }
+
+        #result li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-size: 15px;
+        }
+
+        /* Checkmark Bullets */
+        #result li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        #result.error p {
+            color: #c0392b;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Appearance Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Career Explorer</h1>
+    <p>Select your field of interest to discover exciting path options.</p>
+
+    <!-- Dropdown Selection -->
+    <select id="interest">
+        <option value="">-- Select Interest --</option>
+        <option value="technology">Technology</option>
+        <option value="business">Business</option>
+        <option value="healthcare">Healthcare</option>
+        <option value="arts">Arts</option>
+    </select>
+
+    <!-- Action Buttons -->
+    <div class="btn-group">
+        <button class="btn-primary" id="getSuggestionsBtn">Explore Careers</button>
+        <button class="btn-secondary" id="resetBtn">Reset</button>
+    </div>
+
+    <!-- JavaScript Target Render Block -->
+    <div id="result"></div>
+</div>
+
+<script>
+    // Front-end dataset
+    const careerData = {
+        technology: {
+            title: "Technology Pathways",
+            jobs: ["Software Developer", "Web Developer", "Data Analyst", "Cyber Security Analyst"]
+        },
+        business: {
+            title: "Business Pathways",
+            jobs: ["Marketing Manager", "HR Manager", "Accountant", "Business Analyst"]
+        },
+        healthcare: {
+            title: "Healthcare Pathways",
+            jobs: ["Nurse", "Pharmacist", "Medical Lab Technician", "Physiotherapist"]
+        },
+        arts: {
+            title: "Arts & Creative Pathways",
+            jobs: ["Graphic Designer", "Content Writer", "Teacher", "Animator"]
+        }
+    };
+
+    // DOM Element hooks
+    const interestSelect = document.getElementById("interest");
+    const resultDiv = document.getElementById("result");
+    const getSuggestionsBtn = document.getElementById("getSuggestionsBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // Client-side event handling
+    getSuggestionsBtn.addEventListener("click", showCareer);
+    resetBtn.addEventListener("click", clearSelection);
+
+    function showCareer() {
+        const selectedValue = interestSelect.value;
+        resultDiv.className = ""; // Wipe prior status configuration
+
+        if (selectedValue && careerData[selectedValue]) {
+            const data = careerData[selectedValue];
+            
+            // Format arrays straight into HTML list items safely
+            const listItems = data.jobs.map(job => `<li>${job}</li>`).join('');
+            
+            resultDiv.innerHTML = `<h3>${data.title}</h3><ul>${listItems}</ul>`;
+            resultDiv.classList.add("active");
+        } else {
+            resultDiv.innerHTML = "<p>Please select an interest area from the dropdown selection list.</p>";
+            resultDiv.classList.add("error");
+        }
+    }
+
+    function clearSelection() {
+        interestSelect.value = "";
+        resultDiv.innerHTML = "";
+        resultDiv.className = ""; // Tucks container box away
+    }
+</script>
+
+</body>
+</html>
