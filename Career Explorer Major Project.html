@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Clusters Explorer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 700px;
+            min-height: 450px;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+        }
+
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 {
+            color: #2d3436;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #636e72;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2d3436;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dfe6e9;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #6c5ce7;
+        }
+
+        .btn {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #5b4cc4;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #b2bec3;
+            margin-right: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #636e72;
+        }
+
+        .career-list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .career-item {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #2d3436;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .career-item:hover {
+            background: #e4e7eb;
+            border-color: #6c5ce7;
+            color: #6c5ce7;
+        }
+
+        .skills-container {
+            background: #f9f9fb;
+            border-left: 5px solid #6c5ce7;
+            padding: 20px;
+            border-radius: 4px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .skills-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .skills-list li {
+            padding: 8px 0;
+            color: #2d3436;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .skills-list li::before {
+            content: "✓";
+            color: #2ed573;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .navigation-keys {
+            margin-top: 30px;
+            border-top: 1px solid #dfe6e9;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div id="slide0" class="slide active">
+        <h1>Welcome to Career Explorer</h1>
+        <p>Discover educational pathways, browse specialized sub-tracks, and map the key industry competencies you need for your future success.</p>
+        <button class="btn" onclick="goToSlide(1)">Start Career Explorer</button>
+    </div>
+
+    <div id="slide1" class="slide">
+        <h2>Set Up Your Profile</h2>
+        <div class="form-group">
+            <label for="userName">Full Name</label>
+            <input type="text" id="userName" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label for="userQual">Current Qualification</label>
+            <input type="text" id="userQual" placeholder="e.g., High School, B.Tech">
+        </div>
+        <div class="form-group">
+            <label for="userEmail">Email Address</label>
+            <input type="email" id="userEmail" placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+            <label for="interest">Select Major Career Cluster</label>
+            <select id="interest">
+                <option value="">-- Choose a Cluster --</option>
+                <option value="technology">Information Technology & Software</option>
+                <option value="management">Business Management & Finance</option>
+                <option value="healthcare">Healthcare & Medical Sciences</option>
+                <option value="creative">Creative Arts & Media</option>
+                <option value="education">Education & Public Service</option>
+            </select>
+        </div>
+        <div class="navigation-keys">
+            <button class="btn btn-secondary" onclick="goToSlide(0)">Back</button>
+            <button class="btn" onclick="goToSlide(2)">Explore Clusters</button>
+        </div>
+    </div>
+
+    <div id="slide2" class="slide">
+        <h2>Available Tracks</h2>
+        <p id="welcomeMsg"></p>
+        <div id="careerList" class="career-list"></div>
+        <div class="navigation-keys">
+            <button class="btn btn-secondary" onclick="goToSlide(1)">Back</button>
+        </div>
+    </div>
+
+    <div id="slide3" class="slide">
+        <h2>Confirm Career Selection</h2>
+        <p>Review or switch your specific career role focus below before generating your live curriculum blueprint:</p>
+        <div class="form-group">
+            <label for="careerSelect">Your Selected Target Role:</label>
+            <select id="careerSelect"></select>
+        </div>
+        <div class="navigation-keys">
+            <button class="btn btn-secondary" onclick="goToSlide(2)">Back</button>
+            <button class="btn" onclick="fetchSkillsAndGoTo4()">Generate Blueprint</button>
+        </div>
+    </div>
+
+    <div id="slide4" class="slide">
+        <h2>Your Custom Career Blueprint</h2>
+        <p>The core curriculum competencies below were pulled directly from our live server instance database:</p>
+        
+        <div class="skills-container">
+            <h3 id="targetCareerTitle" style="color:#6c5ce7; margin-bottom:10px;"></h3>
+            <ul id="liveSkillsList" class="skills-list"></ul>
+        </div>
+
+        <div class="navigation-keys">
+            <button class="btn btn-secondary" onclick="goToSlide(3)">Back</button>
+            <button class="btn" onclick="resetApp()">Restart Explorer</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Local Framework Map Object
+    const careerData = {
+        technology: ["Software Developer", "Web Developer", "Data Analyst", "Cyber Security Analyst"],
+        management: ["Marketing Manager", "HR Manager", "Accountant", "Business Analyst"],
+        healthcare: ["Nurse", "Pharmacist", "Medical Lab Technician", "Physiotherapist"],
+        creative: ["Graphic Designer", "Content Writer", "Animator"],
+        education: ["Teacher"]
+    };
+
+    function goToSlide(slideNumber) {
+        if (slideNumber === 2) {
+            const interest = document.getElementById("interest").value;
+            const name = document.getElementById("userName").value || "User";
+            const qualification = document.getElementById("userQual").value;
+            const email = document.getElementById("userEmail").value;
+            
+            if (!interest) return alert("Please select a field of interest first.");
+            
+            // --- NEW: POST form data to MongoDB via Express ---
+            fetch('http://localhost:3000/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    qualification: qualification,
+                    email: email,
+                    interest: interest
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log("MongoDB Save Log:", data))
+            .catch(err => console.error("Database connection failed:", err));
+            // --------------------------------------------------
+
+            document.getElementById("welcomeMsg").innerText = `Hello ${name}, based on your profile, here are the paths inside your chosen field:`;
+            
+            const listDiv = document.getElementById("careerList");
+            const dropdown = document.getElementById("careerSelect");
+            
+            listDiv.innerHTML = careerData[interest].map(job => `<div class="career-item" onclick="selectAndGoTo3('${job}')">${job}</div>`).join('');
+            dropdown.innerHTML = careerData[interest].map(job => `<option value="${job}">${job}</option>`).join('');
+        }
+
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById(`slide${slideNumber}`).classList.add('active');
+    }
+
+    function selectAndGoTo3(selectedJob) {
+        document.getElementById("careerSelect").value = selectedJob;
+        goToSlide(3);
+    }
+
+    function fetchSkillsAndGoTo4() {
+        const chosenCareer = document.getElementById("careerSelect").value;
+        if (!chosenCareer) return alert("Please select a career role.");
+
+        // Query backend live skills dictionary path
+        fetch(`http://localhost:3000/api/skills/${encodeURIComponent(chosenCareer)}`)
+            .then(response => {
+                if (!response.ok) throw new Error("Role signature match failed.");
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("targetCareerTitle").innerText = data.career.toUpperCase();
+                const listContainer = document.getElementById("liveSkillsList");
+                listContainer.innerHTML = data.skills.map(skill => `<li>${skill}</li>`).join('');
+                
+                goToSlide(4);
+            })
+            .catch(error => {
+                console.error("Error communicating with backend:", error);
+                alert("Could not load backend data. Ensure your server is running via terminal.");
+            });
+    }
+
+    function resetApp() {
+        document.getElementById("userName").value = "";
+        document.getElementById("userQual").value = "";
+        document.getElementById("userEmail").value = "";
+        document.getElementById("interest").value = "";
+        goToSlide(0);
+    }
+</script>
+
+</body>
+</html>
